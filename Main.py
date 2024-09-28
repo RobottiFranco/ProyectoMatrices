@@ -30,6 +30,9 @@ def recortar_imagen_v2(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_fina
     try:
         # Abrir la imagen
         image = cv2.imread(ruta_img)
+        
+        # imprimir el tamaño de la imagen original
+        print("El tamaño de la imagen original es" + str(image.shape))
 
         # Obtener la imagen recortada
         image_crop = image[x_inicial:x_final, y_inicial:y_final]
@@ -42,4 +45,5 @@ def recortar_imagen_v2(ruta_img: str, ruta_img_crop: str, x_inicial: int, x_fina
         print("Ha ocurrido un error:", str(e))
 
 
-recortar_imagen_v2("Gato.jpg", "GatoCortado.jpg", 100, 512, 0, 512)
+recortar_imagen_v2("Imagen1/Imagen1.png", "Imagen1/Imagen1Cortada.png", 0, 400, 0, 400)
+recortar_imagen_v2("Imagen2/Imagen2.jpg", "Imagen2/Imagen2Cortada.jpg", 0, 400, 0, 400)
