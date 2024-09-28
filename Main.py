@@ -48,7 +48,7 @@ recortar_imagen_v2("Imagen1/imagen1.png", "Imagen1/imagen1Cortada.png", 0, 300, 
 recortar_imagen_v2("Imagen2/imagen2.jpeg", "Imagen2/imagen2Cortada.jpg", 0, 300, 0, 300)
 
 
-# parte 4
+# parte 4 ==========================================================================================================================================================================
 imagen1Cortada = plt.imread("Imagen1/imagen1Cortada.png")
 m_imagen1Cortada = np.array(imagen1Cortada)
 print("\nLa matriz de imagen1Cortada es:")
@@ -56,7 +56,7 @@ print(m_imagen1Cortada)
 print("\nEl tamaño de la imagen1:" + str(imagen1Cortada.shape) + "\n")
 
 
-# parte 5
+# parte 5 ==========================================================================================================================================================================
 imagen1Cortada = plt.imread("Imagen1/imagen1Cortada.png")
 imagen2Cortada = plt.imread("Imagen2/imagen2Cortada.jpg")
 
@@ -89,7 +89,7 @@ print("\nLa matriz transouesta de 'magen2Cortada.jpg es:")
 print(imagen2Cortada_t)
 
 
-# parte 6
+# parte 6 ==========================================================================================================================================================================
 '''
 np.mean calcula el promedio de los valores de los canales en cada pixel de la imagen.
 El parámetro axis=2 indica que se realizará el promedio a lo largo del tercer eje,
@@ -104,14 +104,14 @@ plt.imsave("Imagen2/imagen2Cortada_gris.jpg", imagen2_Cortada_gris)
 
 # Mostrar la imagen en escala de grises
 plt.imshow(imagen1_Cortada_gris, cmap='gray')
-plt.title("Imagen Recortada en grises")
+plt.title("Imagen1 Recortada en grises")
 plt.show()
 
 plt.imshow(imagen2_Cortada_gris, cmap='gray')
-plt.title("Imagen Recortada en grises")
+plt.title("Imagen2 Recortada en grises")
 plt.show()
 
-# parte 7
+# parte 7 ==========================================================================================================================================================================
 
 def verificar_inversa(matriz):
     try:
@@ -143,3 +143,121 @@ verificar_inversa(imagen1_Cortada_gris)
 
 print("\nMatriz inversa de imagen2 cortada gris:")
 verificar_inversa(imagen2_Cortada_gris)
+
+
+# parte 8 ==========================================================================================================================================================================
+
+def ajustar_contraste(imagen, escalar):
+    # se convierte la imagen a tipo float para evitar problemas de overflow
+    imagen_float = imagen.astype(np.float32)
+
+    # Ajustar el contraste
+    imagen_ajustada = escalar * imagen_float
+    
+    # Asegurar que los valores estén en el rango [0, 255]
+    imagen_ajustada = np.clip(imagen_ajustada, 0, 1)  
+
+    # Escalar al rango [0, 255]
+    imagen_ajustada = (imagen_ajustada * 255).astype(np.uint8)
+    
+    return imagen_ajustada
+
+
+# Cargar una de las imágenes recortadas en escala de grises
+imagen1_cortada_gris = plt.imread("Imagen1/imagen1Cortada_gris.png")
+
+# Caso 1: escalar > 1 (aumentando el contraste)
+escalar1 = 1.5  # Ejemplo de escalar mayor que 1
+imagen_contraste_aumentado = ajustar_contraste(imagen1_cortada_gris, escalar1)
+
+# Caso 2: 0 < escalar < 1 (disminuyendo el contraste)
+escalar2 = 0.5  # Ejemplo de escalar menor que 1
+imagen_contraste_disminuido = ajustar_contraste(imagen1_cortada_gris, escalar2)
+
+
+# Mostrar las imágenes originales y ajustadas
+plt.figure(figsize=(15, 10))
+
+# Imagen original en escala de grises
+plt.subplot(1, 3, 1)
+plt.imshow(imagen1_cortada_gris, cmap='gray')
+plt.title("Imagen Original en Escala de Grises")
+plt.axis('off')
+
+# Imagen con contraste aumentado
+plt.subplot(1, 3, 2)
+plt.imshow(imagen_contraste_aumentado, cmap='gray')
+plt.title(f"Contraste Aumentado (Escalar={escalar1})")
+plt.axis('off')
+
+# Imagen con contraste disminuido
+plt.subplot(1, 3, 3)
+plt.imshow(imagen_contraste_disminuido, cmap='gray')
+plt.title(f"Contraste Disminuido (Escalar={escalar2})")
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+# parte 9 ==========================================================================================================================================================================
+
+# Multiplicación de matrices (prueba para demostrar que la multiplicación de matrices no es conmutativa, 
+# aca se multiplica la matriz w con la imagen original en diferentes órdenes).
+
+def multiplicacion_matrices():
+# Crear matriz identidad del mismo tamaño que la imagen
+  imagen = plt.imread("Imagen1/imagen1.png")
+  W = np.eye(imagen.shape[0])  # Esto crea una matriz identidad
+  W = np.fliplr(W)  # Voltea la matriz identidad
+
+
+  resultado1 = np.dot(W, imagen[:, :, 0])  # Primero W luego la imagen (reduzco un canal de la imagen ya que como es rgb tiene 3 canales, a efectos practicos se demuestra correctamente)
+  resultado2 = np.dot(imagen[:, :, 0], W)  # Primero la imagen luego W (reduzco un canal de la imagen ya que como es rgb tiene 3 canales, a efectos practicos se demuestra correctamente)
+
+  # Mostrar resultados
+  plt.subplot(1, 2, 1)
+  plt.imshow(resultado1)
+  plt.title("Resultado W * Imagen")
+  plt.axis('off')
+
+  plt.subplot(1, 2, 2)
+  plt.imshow(resultado2)
+  plt.title("Resultado Imagen * W")
+  plt.axis('off')
+  plt.show()
+
+multiplicacion_matrices()
+
+
+# parte 10 
+
+imagen = plt.imread("Imagen1/imagen1.png")
+
+# Si la imagen tiene 3 canales (RGB), convertir a escala de grises
+if imagen.ndim == 3:
+    imagen_gris = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
+else:
+    imagen_gris = imagen
+
+# Crear la matriz auxiliar
+matriz_auxiliar = np.full(imagen_gris.shape, 255, dtype=np.uint8)
+
+# Calcular el negativo
+imagen_negativa = matriz_auxiliar - imagen_gris
+
+# Mostrar la imagen negativa
+plt.imshow(imagen_negativa, cmap='gray')
+plt.title("Imagen Negativa")
+plt.axis('off')
+plt.show()
+
+# Guardar la imagen negativa
+cv2.imwrite('imagen_negativa.png', imagen_negativa)
+
+
+
+
+
+
+
+
