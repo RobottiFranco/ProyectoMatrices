@@ -115,9 +115,23 @@ plt.show()
 
 def verificar_inversa(matriz):
     try:
-        inversa = np.linalg.inv(matriz)
+        # Verificamos la forma de la matriz
+        print(f"Forma de la matriz: {matriz.shape}")
+
+        # Comprobamos si la matriz es bidimensional
+        if matriz.ndim != 2:
+            print(f"La matriz debe ser bidimensional para calcular su inversa. Forma actual: {matriz.shape}")
+            print("Redimensionando matriz a 2D.")
+            # Redimensionar la matriz a 2D (si tiene forma (300, 300, 3), tomamos solo la primera capa)
+            matriz_2d = matriz[:, :, 0] 
+        else:
+            matriz_2d = matriz  # Si ya es 2D, la usamos tal cual
+
+        # Calcular la inversa de la matriz 2D
+        inversa = np.linalg.inv(matriz_2d)
         print("La inversa existe y es:")
         print(inversa)
+        
     except np.linalg.LinAlgError:
         print("La matriz no tiene inversa.")
 
