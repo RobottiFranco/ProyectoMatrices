@@ -195,7 +195,7 @@ plt.subplot(1, 3, 3)
 plt.imshow(imagen_contraste_disminuido, cmap='gray')
 plt.title(f"Contraste Disminuido (Escalar={escalar2})")
 plt.axis('off')
-plt.imsave("Imagen1/imagen1_contraste_disminuido.png", imagen_contraste_disminuido)
+plt.imsave("Imagen1/imagen1_contraste_disminuido.jpg", imagen_contraste_disminuido)
 plt.tight_layout()
 plt.show()
 
@@ -226,7 +226,7 @@ def multiplicacion_matrices():
   plt.title("Resultado Imagen * W")
   plt.axis('off')
   plt.show()
-  plt.imsave("Imagen1/imagen1_imagen_x_matriz.png", resultado2)
+  plt.imsave("Imagen2/imagen2_imagen_x_matriz.jpg", resultado2)
 
 multiplicacion_matrices()
 
