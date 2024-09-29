@@ -196,7 +196,6 @@ plt.imshow(imagen_contraste_disminuido, cmap='gray')
 plt.title(f"Contraste Disminuido (Escalar={escalar2})")
 plt.axis('off')
 plt.imsave("Imagen1/imagen1_contraste_disminuido.png", imagen_contraste_disminuido)
-
 plt.tight_layout()
 plt.show()
 
@@ -252,8 +251,6 @@ plt.imshow(imagen_negativa, cmap='gray')
 plt.title("Imagen Negativa")
 plt.axis('off')
 plt.show()
-
-# Guardar la imagen negativa
 plt.imsave("Imagen1/imagen1_negativa.png", imagen_negativa)
 
 
